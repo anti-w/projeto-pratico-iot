@@ -1,6 +1,7 @@
 
 import paho.mqtt.client as mqttClient
 import time
+from distanceSensorGetter import distance
 
 # The ThingSpeak Channel ID.
 channel_ID = "1754141"
@@ -43,16 +44,14 @@ def publish(client, distance):
 
 def main():
 
-    count = 0
     client = connect_mqtt()
     client.loop_start()
 
     try:
         while True:
-            countString = str(count)
+            distance = distance()
+            publish(client, distance)
 
-            publish(client, countString)
-            count += 1
             time.sleep(1)
 
     except KeyboardInterrupt:
